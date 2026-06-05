@@ -1659,9 +1659,17 @@
           <label>Width<input type="number" id="pg-w" value="800" min="1" max="4000" /></label>
           <label>Height<input type="number" id="pg-h" value="600" min="1" max="4000" /></label>
         </div>
+        <label id="pg-cat-label-" style="display:none">
+          Category
+          <input type="text" id="pg-cat-" value="nature" placeholder="nature, avatar, technology…" />
+        </label>
         <label id="pg-cat-label" style="display:none">
           Category
-          <input type="text" id="pg-cat" value="nature" placeholder="nature, avatar, technology…" />
+          <select id="pg-cat">
+            @each(category in categories)
+            <option value="{{category}}">{{category}}</option>
+            @end
+          </select>
         </label>
         <label id="pg-id-label" style="display:none">
           Image ID
