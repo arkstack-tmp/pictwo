@@ -2,6 +2,7 @@ import { BaseController } from './BaseController'
 import { HttpContext } from 'clear-router/types/express'
 import { ImageServiceProvider } from 'src/app/services/ImageServiceProvider'
 import { Resource } from 'resora'
+import { parseLinkHeader } from 'src/Utils/helpers'
 
 /**
  * Handles paginated image listing.
@@ -19,17 +20,27 @@ export default class ImageListController extends BaseController {
         const start = (page - 1) * limit
         const slice = all.slice(start, start + limit)
         const totalPages = Math.ceil(all.length / limit)
-        const baseUrl = `${config('app.url')}/api/v1`
+        const baseUrl = config('app.url')
+        const link = [
+            page > 1
+                ? `<${baseUrl}/api/v1/list?page=${page - 1}&limit=${limit}>; rel="prev"`
+                : null,
+            page < totalPages
+                ? `<${baseUrl}/api/v1/list?page=${page + 1}&limit=${limit}>; rel="next"`
+                : null,
+        ].filter(Boolean).join(', ')
 
-        return new Resource(slice.map(img => ImageServiceProvider.toListItem(img, baseUrl)))
+        return new Resource(
+            slice.map(img => ImageServiceProvider.toListItem(img, baseUrl)))
+            .config({ responseStructure: { wrap: true } })
+            .additional({
+                links: parseLinkHeader(link).reduce((acc, link) => {
+                    acc[link.rel] = link.url
+
+                    return acc
+                }, {} as any)
+            })
             .response()
-            .header('Link', [
-                page > 1
-                    ? `<${baseUrl}/v2/list?page=${page - 1}&limit=${limit}>; rel="prev"`
-                    : null,
-                page < totalPages
-                    ? `<${baseUrl}/v2/list?page=${page + 1}&limit=${limit}>; rel="next"`
-                    : null,
-            ].filter(Boolean).join(', '))
+            .header('Link', link)
     }
 }

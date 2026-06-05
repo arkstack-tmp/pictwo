@@ -35,7 +35,7 @@ export class ImageServiceProvider {
 
         return {
             id,
-            url: `${baseUrl}/id/${id}/info`,
+            url: `${baseUrl}/api/v1/id/${id}/info`,
             width: img.width ?? 800,
             height: img.height ?? 600,
             category: img.category ?? 'Unknown',

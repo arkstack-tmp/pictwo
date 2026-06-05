@@ -186,17 +186,25 @@ GET /api/v1/list?page=2&limit=100
 **Response** — array of image objects:
 
 ```json
-[
-  {
-    "id": "60059",
-    "url": "https://pictwo.toneflix.net/id/60059/info",
-    "width": 800,
-    "height": 600,
-    "category": "technology",
-    "download_url": "https://pictwo.toneflix.net/id/60059/800/600"
+{
+  "data": [
+    {
+      "id": "60059",
+      "url": "https://pictwo.toneflix.net/id/60059/info",
+      "width": 800,
+      "height": 600,
+      "category": "technology",
+      "download_url": "https://pictwo.toneflix.net/id/60059/800/600"
+    }
+  ],
+  "links": {
+    "prev": "https://pictwo.toneflix.net/api/v1/list?page=1&limit=30",
+    "next": "https://pictwo.toneflix.net/api/v1/list?page=3&limit=30"
   }
-]
+}
 ```
+
+`links.prev` and `links.next` are omitted when there is no previous or next page respectively.
 
 **Response fields**
 

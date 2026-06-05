@@ -1507,16 +1507,22 @@
 
         <div class="api-response">
           <div class="api-response-bar">Response · array</div>
-          <pre>[
-  {
-    <span class="key">"id"</span>: <span class="str">"60059"</span>,
-    <span class="key">"url"</span>: <span class="str">"{{config('app.url')}}/api/v1/id/60059/info"</span>,
-    <span class="key">"width"</span>: <span class="num">800</span>,
-    <span class="key">"height"</span>: <span class="num">600</span>,
-    <span class="key">"category"</span>: <span class="str">"technology"</span>,
-    <span class="key">"download_url"</span>: <span class="str">"{{config('app.url')}}/api/v1/id/60059/800/600"</span>
+          <pre>{
+  <span class="key">"data"</span>: [
+    {
+      <span class="key">"id"</span>: <span class="str">"60059"</span>,
+      <span class="key">"url"</span>: <span class="str">"https://pictwo.toneflix.net/id/60059/info"</span>,
+      <span class="key">"width"</span>: <span class="num">800</span>,
+      <span class="key">"height"</span>: <span class="num">600</span>,
+      <span class="key">"category"</span>: <span class="str">"technology"</span>,
+      <span class="key">"download_url"</span>: <span class="str">"https://pictwo.toneflix.net/id/60059/800/600"</span>
+    }
+  ],
+  <span class="key">"links"</span>: {
+    <span class="key">"prev"</span>: <span class="str">"https://pictwo.toneflix.net/api/v1/list?page=1&amp;limit=30"</span>,
+    <span class="key">"next"</span>: <span class="str">"https://pictwo.toneflix.net/api/v1/list?page=3&amp;limit=30"</span>
   }
-]</pre>
+}</pre>
         </div>
       </div>
 
@@ -1545,6 +1551,11 @@
   <span class="key">"download_url"</span>: <span class="str">"{{config('app.url')}}/api/v1/id/60001/800/600"</span>
 }</pre>
         </div>
+
+        <p class="api-desc" style="font-size:0.78rem"><code
+            style="font-family:var(--mono);font-size:0.8em;color:var(--accent)">links.prev</code> and <code
+            style="font-family:var(--mono);font-size:0.8em;color:var(--accent)">links.next</code> are omitted when there
+          is no previous or next page.</p>
 
         <div class="api-params">
           <div class="api-param" style="background:var(--surface-2);border-bottom:1px solid var(--line)">

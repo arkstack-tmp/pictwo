@@ -18,9 +18,7 @@ export default class ImageInfoController extends BaseController {
 
         RequestException.assertFound(img, 'Image not found', 404)
 
-        const baseUrl = `${config('app.url')}/api/v1`
-
-        return new Resource(ImageServiceProvider.toListItem(img, baseUrl))
+        return new Resource(ImageServiceProvider.toListItem(img, config('app.url')))
     }
 
     async showBySeed ({ req }: HttpContext) {
@@ -28,8 +26,7 @@ export default class ImageInfoController extends BaseController {
         const all = service.getAllFiles()
         const idx = ImageServiceProvider.seedIndex(String(req.params.seed), all.length)
         const img = all[idx]
-        const baseUrl = `${config('app.url')}/api/v1`
 
-        return new Resource(ImageServiceProvider.toListItem(img, baseUrl))
+        return new Resource(ImageServiceProvider.toListItem(img, config('app.url')))
     }
 }
