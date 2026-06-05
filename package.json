@@ -1,6 +1,6 @@
 {
   "name": "picktwo.photos",
-  "description": "Drop-in placeholder images for every project.",
+  "description": "Drop-in placeholder images for every project built on Arkstack.",
   "type": "module",
   "version": "0.12.6",
   "scripts": {
@@ -10,6 +10,7 @@
     "test:watch": "vitest",
     "dev": "ark dev",
     "build": "ark build",
+    "serve": "pnpm build && pm2 start serve.config.json --env production",
     "postinstall": "prepare"
   },
   "dependencies": {
