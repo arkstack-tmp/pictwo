@@ -54,17 +54,19 @@ pm2 save && pm2 startup
 Images are served from `{public_root}/images/`. The directory structure determines the available categories — every subdirectory becomes a category automatically. Files placed directly in `images/` are uncategorised and excluded from category routes.
 
 ```
-public/
-└── images/
-    ├── african-fashion/
-    ├── album/
-    ├── avatar/
-    ├── event/
-    ├── fashion/
-    ├── nature/
-    ├── people/
-    ├── poster/
-    └── technology/
+storage/
+└── app/
+    └── public/
+        └── images/
+            ├── african-fashion/
+            ├── album/
+            ├── avatar/
+            ├── event/
+            ├── fashion/
+            ├── nature/
+            ├── people/
+            ├── poster/
+            └── technology/
 ```
 
 Supported input formats: `.jpg` `.jpeg` `.png` `.webp` `.avif` `.gif` `.tiff` `.bmp` `.heic` `.heif`
