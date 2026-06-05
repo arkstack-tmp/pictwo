@@ -3,7 +3,7 @@ import { defineConfig } from 'resora'
 export default defineConfig({
   preferredCase: 'camel',
   responseStructure: {
-    wrap: true,
+    wrap: false,
     rootKey: 'data',
   },
   paginatedExtras: ['meta', 'links'],

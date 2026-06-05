@@ -15,6 +15,9 @@ Drop-in replacement for [Lorem Picsum](https://picsum.photos) with additional [L
   - [Picsum-style routes](#picsum-style-routes)
   - [Lorem Toneflix-compatible routes](#lorem-toneflix-compatible-routes)
   - [Shared query parameters](#shared-query-parameters)
+- [API Routes](#api-routes)
+  - [List images](#list-images)
+  - [Image info](#image-info)
 - [Filters](#filters)
 - [Seeding](#seeding)
 - [Architecture](#architecture)
@@ -153,6 +156,84 @@ These work on every route regardless of style.
 | `?seed=anything`   | Any unrecognised query param acts as a seed. See [Seeding](#seeding).        |
 | `?random=N`        | Cache-busting no-op (ignored by the server).                                 |
 | `?format=webp`     | Output format override. Also accepts `jpeg`, `png`, `avif`.                  |
+
+---
+
+## API Routes
+
+The `/api/v1` prefix exposes a JSON API for listing and inspecting images in the catalogue. This is useful for building tooling on top of the service, populating a UI with real image metadata, or discovering valid IDs to use with the image routes.
+
+All responses are JSON. No authentication is required.
+
+---
+
+### List images
+
+Returns a paginated list of all images across all categories.
+
+```
+GET /api/v1/list
+GET /api/v1/list?page=2&limit=100
+```
+
+**Query parameters**
+
+| Parameter | Default | Description           |
+| --------- | ------- | --------------------- |
+| `page`    | `1`     | Page number (1-based) |
+| `limit`   | `30`    | Items per page        |
+
+**Response** — array of image objects:
+
+```json
+[
+  {
+    "id": "60059",
+    "url": "https://pictwo.toneflix.net/id/60059/info",
+    "width": 800,
+    "height": 600,
+    "category": "technology",
+    "download_url": "https://pictwo.toneflix.net/id/60059/800/600"
+  }
+]
+```
+
+**Response fields**
+
+| Field          | Type   | Description                                                     |
+| -------------- | ------ | --------------------------------------------------------------- |
+| `id`           | string | File ID — filename without extension. Use this in image routes. |
+| `url`          | string | Permalink to the image's info endpoint.                         |
+| `width`        | number | Native width of the source file in pixels.                      |
+| `height`       | number | Native height of the source file in pixels.                     |
+| `category`     | string | Category name derived from the parent directory.                |
+| `download_url` | string | Ready-to-use image URL at 800×600. Swap dimensions as needed.   |
+
+---
+
+### Image info
+
+Returns metadata for a single image by ID or by seed. Useful for resolving what image a seed maps to before embedding it.
+
+```
+GET /api/v1/id/:id/info
+GET /api/v1/seed/:seed/info
+```
+
+**Response** — single image object (same shape as the list items above):
+
+```json
+{
+  "id": "60001",
+  "url": "https://pictwo.toneflix.net/id/60001/info",
+  "width": 800,
+  "height": 600,
+  "category": "technology",
+  "download_url": "https://pictwo.toneflix.net/id/60001/800/600"
+}
+```
+
+The seed endpoint resolves the seed to its corresponding image and returns that image's metadata. The resolved ID is stable — the same seed will always resolve to the same object as long as the image library does not change.
 
 ---
 

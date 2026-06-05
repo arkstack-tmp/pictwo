@@ -1,15 +1,16 @@
 import { BaseController } from './BaseController'
 import { HttpContext } from 'clear-router/types/express'
 import { ImageServiceProvider } from 'src/app/services/ImageServiceProvider'
+import { Resource } from 'resora'
 
 /**
  * Handles paginated image listing.
  *
- * GET /v1/list
- * GET /v1/list?page=2&limit=100
+ * GET /api/v1/list
+ * GET /api/v1/list?page=2&limit=100
  */
 export default class ImageListController extends BaseController {
-    async index ({ req, res }: HttpContext) {
+    async index ({ req }: HttpContext) {
         const service = await ImageServiceProvider.get()
         const all = service.getAllFiles()
 
@@ -20,15 +21,15 @@ export default class ImageListController extends BaseController {
         const totalPages = Math.ceil(all.length / limit)
         const baseUrl = `${req.protocol}://${req.get('host')}`
 
-        res.setHeader('Link', [
-            page > 1
-                ? `<${baseUrl}/v2/list?page=${page - 1}&limit=${limit}>; rel="prev"`
-                : null,
-            page < totalPages
-                ? `<${baseUrl}/v2/list?page=${page + 1}&limit=${limit}>; rel="next"`
-                : null,
-        ].filter(Boolean).join(', '))
-
-        return res.json(slice.map(img => ImageServiceProvider.toListItem(img, baseUrl)))
+        return new Resource(slice.map(img => ImageServiceProvider.toListItem(img, baseUrl)))
+            .response()
+            .header('Link', [
+                page > 1
+                    ? `<${baseUrl}/v2/list?page=${page - 1}&limit=${limit}>; rel="prev"`
+                    : null,
+                page < totalPages
+                    ? `<${baseUrl}/v2/list?page=${page + 1}&limit=${limit}>; rel="next"`
+                    : null,
+            ].filter(Boolean).join(', '))
     }
 }
