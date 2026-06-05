@@ -113,14 +113,14 @@ export default class ToneflixController extends BaseController {
      * @param query 
      * @returns 
      */
-    static resolveFilters (query: Record<string, string>): {
+    static resolveFilters (query: Record<string, string | string[]>): {
         filters: ImageFilter[]
         blurSigma?: number
     } {
         const filters: ImageFilter[] = []
         let blurSigma: number | undefined
 
-        const raw = (query.filters ?? '').trim()
+        const raw = Array.isArray(query.filters) ? query.filters.join(',') : (query.filters ?? '').trim()
         if (!raw) return { filters, blurSigma }
 
         for (const token of raw.split(',')) {
