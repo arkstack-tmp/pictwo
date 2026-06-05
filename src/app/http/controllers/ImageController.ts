@@ -30,7 +30,7 @@ export default class ImageController extends BaseController {
       ? req.params.args.join('/')
       : req.params.args ?? ''
     ).replace(/^\//, '')
-
+    console.log(env('APP_URL', 'http://localhost'))
     const byCategory = args.match(/^category\/([^/]+)\/(\d+)(?:\/(\d+))?(?:\.\w+)?$/)
     const service = await ImageServiceProvider.get()
 
@@ -146,7 +146,7 @@ export default class ImageController extends BaseController {
   } {
     // Start with ?filters= (shared helper from ToneflixController)
     const { filters, blurSigma: toneBlur } = ToneflixController.resolveFilters(query)
-    console.log(filters)
+
     if (!filters) return { filters: [] }
 
     // Layer Picsum-style params on top

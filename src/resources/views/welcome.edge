@@ -1248,7 +1248,7 @@
 
   <script>
     const BASE_URL = (function () {
-      const tag = '{{config('app.url')}}'
+      return '{{config('app.url')}}'
     })()
 
     // Bust cache on each reload by appending a random query param (acts as seed)
