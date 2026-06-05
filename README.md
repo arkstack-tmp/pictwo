@@ -220,13 +220,15 @@ The service is split into three layers with a clear separation of concerns.
 ```
 src/
 ├── Utils/
-│   └── Image.ts              # Single-image processing (sharp pipeline)
+│   └── Image.ts                 # Single-image processing (sharp pipeline)
 ├── app/services/
-│   ├── ImageService.ts       # Directory scanning, catalogue, filter/seed parsing
+│   ├── ImageService.ts          # Directory scanning, catalogue, filter/seed parsing
 │   └── ImageServiceProvider.ts  # Singleton façade, ID helpers
 └── app/controllers/
-    ├── ImageController.ts    # Picsum-style routes
-    └── TonelixController.ts  # Lorem Toneflix-compatible routes
+    ├── ImageController.ts        # Picsum-style routes
+    ├── ImageInfoController.ts    # Image metadata routes.
+    ├── ImageListController.ts    # Paginated image listing routes
+    └── TonelixController.ts      # Lorem Toneflix-compatible routes
 ```
 
 **`Image`** wraps a single image file. It owns the sharp pipeline — resize, filters, format conversion, quality — and exposes `make()`, `save()`, `toResponse()`, and the static `withText()` overlay helper. It has no knowledge of HTTP or routing.
